@@ -1,0 +1,10 @@
+>---- --player aim 
+> -----make player projectile
+> -----kill enemies
+>---rotate player
+> -----add score display
+>--- make player lose when touched
+
+
+add background and add sprites
+add sounds

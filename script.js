@@ -86,8 +86,8 @@ class Player {
     constructor(){
         this.x=canvas.width/2;
         this.y=canvas.height/2;
-        this.gunx=canvas.width/2-45;
-        this.guny=canvas.height/2-15
+        this.gunx=canvas.width/2;
+        this.guny=canvas.height/2
         this.radius=30;
         this.angle=0;
         this.speed=8;
@@ -119,6 +119,7 @@ class Player {
 
         ctx.save();
         ctx.translate(this.x, this.y);
+        
         ctx.rotate(this.angle);
 
         ctx.beginPath();
@@ -128,13 +129,7 @@ class Player {
         ctx.fill();
         ctx.closePath();
 
-        ctx.beginPath();
-        ctx.fillStyle='red'
-        // ctx.arc(0,0,this.radius, 0, Math.PI*2);
-        ctx.arc(0-45, 0-15,5, 0, Math.PI*2);
-        ctx.fill();
-        ctx.closePath();
-      
+        
         const temp=3
         ctx.drawImage(playerAnimationFeet, 0-150+110, 0-40+32,feetW/temp,feetH/temp)
         ctx.drawImage(playerAnimationBody, 0-155+110, 0-70+32,bodyW/temp,bodyW/temp)
@@ -142,36 +137,41 @@ class Player {
         // ctx.drawImage(playerAnimationBody, this.x-155+110, this.y-70+32,bodyW/temp,bodyW/temp)
         // console.log(this.Moving)
         ctx.restore();
-       
+        
     }
 }
 const bullets=[];
 class Bullet{
  
     constructor(player){
-        this.x=player.x;
-        this.y=player.y;
-        // this.x=player.radius*Math.cos(player.angle)
-        // this.y=player.radius*Math.sin(player.angle)
+        this.x=player.x+(-player.radius)*Math.cos(player.angle+Math.PI/5.5);
+        this.y=player.y+(-player.radius)*Math.sin(player.angle+Math.PI/5.5);
+        // this.x=(player.radius)*Math.cos(-player.angle)+player.x-65;
+        // this.y=(player.radius)*Math.sin(-player.angle)+player.y-15;
         this.speed=15;
         this.radius=5;
-        this.angle=Math.atan2((mouse.y - player.y ),(mouse.x-player.x ))
+        this.angle=0//Math.atan2((mouse.y - player.y ),(mouse.x-player.x ))
         this.velX=Math.cos(Math.atan2((mouse.y - player.y  ),(mouse.x-player.x )))
         this.velY=Math.sin(Math.atan2((mouse.y - player.y ),(mouse.x-player.x)))
         this.distance
     }
 
     draw(){
-        ctx.save();
-        ctx.translate(this.x, this.y);
-        ctx.rotate(this.angle);
-
+        // ctx.save();
+        // ctx.translate(this.x, this.y);
+        // ctx.rotate(this.angle);
+        //ctx.translate(this.x+(-this.radius-15)*Math.cos(this.angle), this.guny+(-this.radius-15)*Math.sin(this.angle));
         ctx.beginPath();
         ctx.fillStyle='black'
-        ctx.arc(0,0,this.radius, 0, Math.PI*2);
+        ctx.arc(this.x,this.y,this.radius, 0, Math.PI);
         ctx.fill();
         ctx.closePath();
-        ctx.restore();
+        ctx.beginPath();
+        ctx.fillStyle='red'
+        ctx.arc(this.x,this.y,this.radius, 0, Math.PI, true);
+        ctx.fill();
+        ctx.closePath();
+       
     }
 
     update(enemy){
@@ -179,9 +179,19 @@ class Bullet{
         const dx = this.x -mouse.x;
         const dy =this.y-mouse.y;
         const angle=Math.atan2(dy, dx)
-        // this.angle=angle;
+        this.angle=angle;
+        
+        // ctx.save()
+        // ctx.translate(-50,-20)
+        // ctx.translate(this.x+(-this.radius-15)*Math.cos(this.angle), this.y+(-this.radius-15)*Math.sin(this.angle));
+        // ctx.translate((player1.radius)*Math.cos(player1.angle),(player1.radius)*Math.sin(-player1.angle));
+        // ctx.rotate(angle)
+        
+        // ctx.restore()
         this.x+=this.speed*this.velX
         this.y+=this.speed*this.velY
+        // this.x=this.velX
+        // this.y=this.velY
         // const dx= this.x-enemy.x
         // const dy= this.y-enemy.y
         // this.distance=Math.sqrt(dx*dx+dy*dy)
@@ -276,20 +286,20 @@ function handleBullets(){
 function input(player){
     if (65  in keys) {
         player.x -= player.speed;
-
+        // player.gunx -= player.speed;
        
         }
         if (68 in keys) {
         player.x += player.speed;
-
+        // player.gunx += player.speed;
         }
         if (87 in keys) {
         player.y -= player.speed;
-
+        // player.guny -= player.speed;            
         }
         if (83 in keys) {
         player.y += player.speed;
-
+        // player.guny += player.speed;
         }
 
 }
@@ -369,7 +379,7 @@ function handleGameOver(){
     ctx.fillStyle='black'
     ctx.font = "50px arial";
     ctx.fillText('GAME OVER',  450,400);
-    gameOver=true;
+    //gameOver=true;
 
 }
 

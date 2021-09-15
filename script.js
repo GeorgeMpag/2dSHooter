@@ -40,6 +40,7 @@ playerAnimationBody.onload = function() {
     
     bodyH=this.height;
     bodyW=this.width;
+    return true
 
   }
 playerAnimationBody.src='body\\survivor-move_handgun_'+0+'.png'
@@ -135,7 +136,8 @@ class Player {
         
         const temp=3
         ctx.drawImage(playerAnimationFeet, 0-150+110, 0-40+32,feetW/temp,feetH/temp)
-        ctx.drawImage(playerAnimationBody, 0-155+110, 0-70+32,bodyW/temp,bodyW/temp)
+        if (playerAnimationBody.onload())
+            ctx.drawImage(playerAnimationBody, 0-155+110, 0-70+32,bodyW/temp,bodyW/temp)
         ctx.restore();
         
     }

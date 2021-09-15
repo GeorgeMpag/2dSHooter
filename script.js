@@ -1,21 +1,29 @@
 //canvas setup
 const canvas= document.getElementById('canvas1');
 const ctx = canvas.getContext('2d');
+const gameOverScreen=document.getElementById('game-over');
+const playAgainBtn=document.getElementById("play-again")
+
+
 canvas.width=1224
 canvas.height=768
 
 let score =0;
 let gameFrame= 0;
 let gameOver=false;
-let feetW, bodyW, bodyH;
+let feetW, bodyW, bodyH,dW,dH;
 let feetH;
 let enemySpriteW, enemySpriteH;
+let paused=false;
 
-//////////////////////////////////////////////////////////////////////////////////////////////////
 
-/////////////////////////////////////////////////////////////////////////////
 const enemydead=new Image();
-enemydead.src='zombiedeath.png';
+enemydead.src='blood.png';
+enemydead.onload=function(){
+    dW=this.width;
+    dH=this.height;
+    return true
+}
 const playerAnimationFeet=new Image();
 playerAnimationFeet.src='feet\\survivor-run_0.png';
 
@@ -23,9 +31,9 @@ playerAnimationFeet.onload = function() {
     
     feetH=this.height;
     feetW=this.width;
-
+    return true
   }
-// console.log(playerAnimationFeet.onload.width)
+
 
 const playerAnimationBody=new Image();
 playerAnimationBody.onload = function() {
@@ -37,12 +45,21 @@ playerAnimationBody.onload = function() {
 playerAnimationBody.src='body\\survivor-move_handgun_'+0+'.png'
 
 const enemySprite=new Image();
-enemySprite.src='zombiebasic.png'
-// enemySprite.onload=function(){
-//     enemySpriteW=this.width;
-//     enemySpriteH=this.height;
-// }
+enemySprite.src='zombiebasicwhole.png'
+enemySprite.onload=function(){
+    enemySpriteW=this.width;
+    enemySpriteH=this.height;
+    return true
+}
 //keys interactivity
+window.addEventListener('keydown', function (e) {
+    var key = e.keyCode;
+    if (key === 27)// esc key
+    {
+        paused=!paused
+    }
+    });
+
 var keys = {};
 window.addEventListener('keydown', function (e) {
 keys[e.keyCode] = true;
@@ -74,8 +91,8 @@ canvas.addEventListener('mousemove', function(e){
 canvas.addEventListener('click',function(e){
     mouse.x = e.x - canvasPosition.left;
     mouse.y = e.y - canvasPosition.top;
-   
-    bullets.push(new Bullet(player1));
+   if (!paused)
+     bullets.push(new Bullet(player1));
 })
   
 
@@ -92,12 +109,6 @@ class Player {
         this.angle=0;
         this.speed=8;
         this.Moving=false;
-        
-        // this.frameX=0; 
-        // this.frameY=0; 
-        // this.frameX=0; 
-        // this.spriteWidth=498;
-        // this.srpiteHeight=327; 
     }
 
     
@@ -121,26 +132,15 @@ class Player {
         ctx.translate(this.x, this.y);
         
         ctx.rotate(this.angle);
-
-        ctx.beginPath();
-        ctx.fillStyle='cyan'
-        ctx.arc(0,0,this.radius, 0, Math.PI*2);
-        // ctx.arc(this.x, this.y,this.radius, 0, Math.PI*2);
-        ctx.fill();
-        ctx.closePath();
-
         
         const temp=3
         ctx.drawImage(playerAnimationFeet, 0-150+110, 0-40+32,feetW/temp,feetH/temp)
         ctx.drawImage(playerAnimationBody, 0-155+110, 0-70+32,bodyW/temp,bodyW/temp)
-        // ctx.drawImage(playerAnimationFeet, this.x-150+110, this.y-40+32,feetW/temp,feetH/temp)
-        // ctx.drawImage(playerAnimationBody, this.x-155+110, this.y-70+32,bodyW/temp,bodyW/temp)
-        // console.log(this.Moving)
         ctx.restore();
         
     }
 }
-const bullets=[];
+var bullets=[];
 class Bullet{
  
     constructor(player){
@@ -157,21 +157,12 @@ class Bullet{
     }
 
     draw(){
-        // ctx.save();
-        // ctx.translate(this.x, this.y);
-        // ctx.rotate(this.angle);
-        //ctx.translate(this.x+(-this.radius-15)*Math.cos(this.angle), this.guny+(-this.radius-15)*Math.sin(this.angle));
+        
         ctx.beginPath();
         ctx.fillStyle='black'
-        ctx.arc(this.x,this.y,this.radius, 0, Math.PI);
+        ctx.arc(this.x,this.y,this.radius, 0, 2*Math.PI);
         ctx.fill();
-        ctx.closePath();
-        ctx.beginPath();
-        ctx.fillStyle='red'
-        ctx.arc(this.x,this.y,this.radius, 0, Math.PI, true);
-        ctx.fill();
-        ctx.closePath();
-       
+        ctx.closePath();       
     }
 
     update(enemy){
@@ -181,20 +172,9 @@ class Bullet{
         const angle=Math.atan2(dy, dx)
         this.angle=angle;
         
-        // ctx.save()
-        // ctx.translate(-50,-20)
-        // ctx.translate(this.x+(-this.radius-15)*Math.cos(this.angle), this.y+(-this.radius-15)*Math.sin(this.angle));
-        // ctx.translate((player1.radius)*Math.cos(player1.angle),(player1.radius)*Math.sin(-player1.angle));
-        // ctx.rotate(angle)
-        
-        // ctx.restore()
         this.x+=this.speed*this.velX
         this.y+=this.speed*this.velY
-        // this.x=this.velX
-        // this.y=this.velY
-        // const dx= this.x-enemy.x
-        // const dy= this.y-enemy.y
-        // this.distance=Math.sqrt(dx*dx+dy*dy)
+        
     }
 
 }
@@ -212,48 +192,57 @@ function handleAnimations(){
         playerAnimationBody.src='body\\survivor-move_handgun_'+ia+'.png'
    
     }
-    if (gameFrame % 10==0){
      
             for (let i=0; i<enemyArray.length;i++){
-                // if (!enemyArray[i].dead){
+                if (!enemyArray[i].dead){
+                    if (gameFrame % 10==0){
                         enemyArray[i].frame++;
-                    if (enemyArray[i].frameX==2 ){
-                        enemyArray[i].frameX=0 
-                    }else enemyArray[i].frameX++;
-        
-        
-                
-                    if (enemyArray[i].frame==4){
-                        enemyArray[i].frameY=1
-                    }else enemyArray[i].frameY=0
-                    if(enemyArray[i].frame>=5){
-                        enemyArray[i].frame=0
+                        if (enemyArray[i].frameX==2 ){
+                            enemyArray[i].frameX=0 
+                        }else enemyArray[i].frameX++;
+            
+            
+                    
+                        if (enemyArray[i].frame==4){
+                            enemyArray[i].frameY=1
+                        }else enemyArray[i].frameY=0
+                        if(enemyArray[i].frame>=5){
+                            enemyArray[i].frame=0
+                        }
                     }
-                // } 
-            //     else{
-            //         enemyArray[i].speed=0
-            //         // enemyArray[i].velY=0
-            //         enemyArray[i].frame=0
-            //         enemyArray[i].frameX=0
-            //         enemyArray[i].frameY=0
-            //         enemyArray[i].frame++
-            //         enemyArray[i].frameX++
+                    
+                } 
+                else{
+                    if (gameFrame % 3==0){
+                        enemyArray[i].frame++;
+                        if (enemyArray[i].frameX==3 ){
+                            enemyArray[i].frameX=0 
+                        }else enemyArray[i].frameX++;
+            
+            
+                    
+                        if (enemyArray[i].frame==4){
+                            enemyArray[i].frameY=1
+                        }else if (enemyArray[i].frame==8){
+                            enemyArray[i].frameY=2
+                        }
+                        // else
+                        //     enemyArray[i].frameY=3
+                        if(enemyArray[i].frame>=11){
+                            enemyArray.splice(i,1) 
+                            i--
+                        }
+                    }
 
-            //         if (enemyArray[i].frame>=4)
-            //             enemyArray.splice(i,1) 
            
-            //    }
+               }
                 
             }
-        
-       
-    }
-
-        
+  
 }
 
 function handleBullets(){
-    if (  bullets.length>0 ){
+    if (  bullets.length>0  ){
         //Bullet colide with enemies
         for (let i=0 ;i< bullets.length;i++){
             if (bullets[i].x>canvas.width || bullets[i].x<0 ||bullets[i].y>canvas.height || bullets[i].y<0){
@@ -265,15 +254,23 @@ function handleBullets(){
             bullets[i].draw()
             for(let j=0;j<enemyArray.length; j++){
                 let dist=Math.sqrt(Math.pow(bullets[i].x -enemyArray[j].x, 2) + Math.pow(bullets[i].y - enemyArray[j].y, 2))
-                if (dist-bullets[i].radius-enemyArray[j].radius<=0){
+                if (dist-bullets[i].radius-enemyArray[j].radius<=0 && !enemyArray[j].dead){
                      bullets.splice(i,1)
                      i--;
                     
-                    // enemyArray[j].dead=true; 
-                    enemyArray.splice(j,1) 
-                    j--; 
+                     if(!enemyArray[j].dead){
+                        score++
+                        enemyArray[j].dead=true; 
+                        enemyArray[j].frame=0
+                        enemyArray[j].frameX=0
+                        enemyArray[j].frameY=0
+                     }
+                    
+                    //  enemyArray[j].radius=0;
+                    // enemyArray.splice(j,1) 
+                    // j--; 
                      
-                     score++
+                    
                     break;
                 }
             
@@ -301,29 +298,37 @@ function input(player){
         player.y += player.speed;
         // player.guny += player.speed;
         }
+        // if (27 in keys)
+        //     paused=!paused
 
 }
 
 //Enemies
-const enemyArray=[];
+var enemyArray=[];
 
 class Enemy{
 
     constructor(){
-        this.spriteW=233/3
-        this.spriteH=166/2
-        //this.dw=328/4
+        this.spriteW=303/4
+        this.spriteH=(254/4)+16
+        // athis.dw=this.dh=300
        // this.dh=105
-        this.x=-Math.random()*canvas.width +Math.random()*canvas.width*3;
+    //    temp=x=-Math.random()*canvas.width +Math.random()*canvas.width*3
+    //    tempy=-Math.random()*canvas.height+Math.random()*canvas.height*3;
+       do {
+        var tempx=-Math.random()*canvas.width +Math.random()*canvas.width*3
+        var tempy=-Math.random()*canvas.height+Math.random()*canvas.height*3;
+       }while((tempx>=0 && tempx<=canvas.width) && (tempy>=0 && tempy<=canvas.height));
+        this.x=tempx//-Math.random()*canvas.width +Math.random()*canvas.width*3;
       
-        this.y=-Math.random()*canvas.height+Math.random()*canvas.height*3;
-        this.speed=3*Math.random(); 
-        this.radius=20;
+        this.y=tempy//-Math.random()*canvas.height+Math.random()*canvas.height*3;
+        this.speed=3.5*Math.random()+1; 
+        this.radius=25;
         this.frameY=0;
         this.frameX=0;
         this.frame=0;
         this.angle=0
-        //this.dead=false
+        this.dead=false
         // this.angle=0;
     }
     draw(){
@@ -331,13 +336,13 @@ class Enemy{
         ctx.translate(this.x, this.y);
         ctx.rotate(this.angle-Math.PI/-2);
 
-
-        //if(this.dead)
-           // ctx.drawImage(enemydead, this.frameX*this.dW/4, this.frameY*this.dh,this.dw, this.dh, 0-45,0-50, this.dw, this.dh)
-        //else 
-            ctx.drawImage(enemySprite, this.frameX*this.spriteW, this.frameY*this.spriteH,this.spriteW, this.spriteH, 0-45,0-50, this.spriteW, this.spriteH)
-
-            ctx.restore()
+        if (!this.dead)
+            ctx.drawImage(enemySprite, this.frameX*this.spriteW, this.frameY*this.spriteH,this.spriteW, this.spriteH, 0-35,0-50, this.spriteW, this.spriteH)
+        ctx.restore()
+        if (this.dead)
+            if (enemydead.onload)
+                ctx.drawImage(enemydead, this.frameX*dW/4, this.frameY*dH/4,dW/4, dH/4, this.x-65,this.y-40, dW/4, dH/4)
+        
     }
 
     update(player){
@@ -346,9 +351,13 @@ class Enemy{
         const dy=player.y - this.y  
         const angle=Math.atan2(dy, dx)  
         this.angle=angle 
-        this.x+=this.speed*Math.cos(angle)
-        this.y+=this.speed*Math.sin(angle)
-        if (Math.sqrt(Math.pow(dx, 2) + Math.pow(dy, 2))<=player.radius+this.radius){
+        if (!this.dead){
+            this.x+=this.speed*Math.cos(angle)
+            this.y+=this.speed*Math.sin(angle)
+        }
+       
+        
+        if (Math.sqrt(Math.pow(dx, 2) + Math.pow(dy, 2))<=player.radius+this.radius && !this.dead){
             handleGameOver();
         }
     }
@@ -368,42 +377,72 @@ function handleEnemies(player){
     for (let i=0 ;i< enemyArray.length;i++){
         enemyArray[i].draw()
         enemyArray[i].update(player)
+        // if (score%10==0)
+        //     enemyArray[i].speed+=0.15
     }
 }
 
 
 
-const player1=new Player();
+var player1=new Player();
 
 function handleGameOver(){
+    gameOver=true;
     ctx.fillStyle='black'
     ctx.font = "50px arial";
-    ctx.fillText('GAME OVER',  450,400);
-    //gameOver=true;
+    // ctx.fillText('GAME OVER',  450,400);
+    gameOverScreen.style.display = "block";
+    document.getElementById("points").innerHTML=score
+   }
 
-}
 
+playAgainBtn.onclick= function(){
+    console.log("play again")
+    score=0
+    player1=new Player();
+    bullets=[]
+    enemyArray=[];
+    gameFrame= 0;
+    gameOver=false
+    gameOverScreen.style.display = "none";
+    paused=false;
+    animate();
+}//playAgain()//function(){console.log("clicked")}
 ctx.font = "30px arial";
 //Animation loop
 
 function animate(){ 
-    ctx.clearRect(0,0,canvas.width,canvas.height)
-    player1.draw();
-    player1.update() 
-    handleEnemies(player1);
-    handleBullets(enemyArray)
-    handleAnimations()
-    ctx.fillStyle='black'
-    ctx.fillText('score: ' + score, 10, 40)
-    gameFrame++;
-    if (!gameOver){
+    if(!paused){
+        ctx.clearRect(0,0,canvas.width,canvas.height)
+        player1.draw();
+        player1.update() 
+        handleEnemies(player1);
+        handleBullets(enemyArray)
+        handleAnimations()
+        ctx.fillStyle='black'
+        ctx.fillText('score: ' + score, 10, 40)
+        gameFrame++;
+    }else if (paused){
+        
+        ctx.fillStyle='black'
+        ctx.fillText('PAUSED' , canvas.width/2-70,100,)
+        // ctx.strokeText()
+    }
+    if (!gameOver ){
+        
         requestAnimationFrame(animate)
     }
+   
  }
  window.addEventListener('resize',function(){
     canvasPosition=canvas.getBoundingClientRect();
     
 });
 
-animate();
+
+    animate();
+
+
+
+
 

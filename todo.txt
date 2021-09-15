@@ -1,10 +1,22 @@
->---- --player aim 
-> -----make player projectile
-> -----kill enemies
+DONE
+____________________________________________
+>--player aim 
+>--make player projectile
+>--kill enemies
 >---rotate player
-> -----add score display
->--- make player lose when touched
+>--add score display
+>---make player lose when touched
+>---zombie death animation 
+>--fix dont spawn in canvas area
+>--game over screen 
+>--pause
 
 
-add background and add sprites
-add sounds
+
+TODO
+___________________________________________
+>make enemies not stack on each other
+>meelee attack
+>fix spawns on breakpoints
+>?add sounds 
+>play again screen animation

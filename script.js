@@ -189,11 +189,12 @@ function handleAnimations(){
         if (ia==19){
             ia =1
         }      
+            if (gameFrame % 10==0){
+            ia++
+            playerAnimationFeet.src= 'feet\\survivor-run_'+ia+'.png' 
 
-        ia++
-        playerAnimationFeet.src= 'feet\\survivor-run_'+ia+'.png' 
-        
-        playerAnimationBody.src='body\\survivor-move_handgun_'+0+'.png'
+            playerAnimationBody.src='body\\survivor-move_handgun_'+ia+'.png'
+        }
    
     }
      

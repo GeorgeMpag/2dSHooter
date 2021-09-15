@@ -136,7 +136,7 @@ class Player {
         
         const temp=3
         ctx.drawImage(playerAnimationFeet, 0-150+110, 0-40+32,feetW/temp,feetH/temp)
-        if (playerAnimationBody.onload() && gameFrame%5==0)
+        if (playerAnimationBody.onload() )
             ctx.drawImage(playerAnimationBody, 0-155+110, 0-70+32,bodyW/temp,bodyW/temp)
         ctx.restore();
         

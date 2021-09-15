@@ -40,10 +40,11 @@ playerAnimationBody.onload = function() {
     
     bodyH=this.height;
     bodyW=this.width;
+    playerAnimationBody.src='body\\survivor-move_handgun_'+0+'.png'
     return true
 
   }
-playerAnimationBody.src='body\\survivor-move_handgun_'+0+'.png'
+
 
 const enemySprite=new Image();
 enemySprite.src='zombiebasicwhole.png'
@@ -191,7 +192,8 @@ function handleAnimations(){
 
         ia++
         playerAnimationFeet.src= 'feet\\survivor-run_'+ia+'.png' 
-        playerAnimationBody.src='body\\survivor-move_handgun_'+ia+'.png'
+        
+        playerAnimationBody.src='body\\survivor-move_handgun_'+0+'.png'
    
     }
      

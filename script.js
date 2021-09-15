@@ -92,7 +92,7 @@ canvas.addEventListener('click',function(e){
     mouse.x = e.x - canvasPosition.left;
     mouse.y = e.y - canvasPosition.top;
    if (!paused)
-     bullets.push(new Bullet(player1));
+    bullets.push(new Bullet(player1));
 })
   
 

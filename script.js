@@ -184,17 +184,23 @@ class Bullet{
 }
 
 function handleAnimations(){
-   
+   let ib=0
     if (65 in keys || 68 in keys|| 87 in keys|| 83 in keys){
       
         if (ia==19){
             ia =1
-        }      
-        if (gameFrame % 45==0){
-                ia++
-                playerAnimationFeet.src= 'feet\\survivor-run_'+ia+'.png' 
-
-                playerAnimationBody.src='body\\survivor-move_handgun_'+ia+'.png'
+        }   
+          if (ib==19){
+            ib =1
+        }  
+        if (gameFrame %60==0){
+            ib++
+            playerAnimationFeet.src= 'feet\\survivor-run_'+ib+'.png' 
+        }
+        
+        if (gameFrame % 30==0){
+            ia++
+            playerAnimationBody.src='body\\survivor-move_handgun_'+ia+'.png'
         }
     
     }

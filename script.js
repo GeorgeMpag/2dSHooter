@@ -25,7 +25,7 @@ enemydead.onload=function(){
     dH=this.height;
     return true
 }
-let playerAnimationFeet=new Image();
+const playerAnimationFeet=new Image();
 playerAnimationFeet.src=`feet\\survivor-run_${ia}.png`;
 
 playerAnimationFeet.onload = function() {
@@ -36,7 +36,7 @@ playerAnimationFeet.onload = function() {
   }
 
 
-let playerAnimationBody=new Image();
+const playerAnimationBody=new Image();
 playerAnimationBody.onload = function() {
     
     bodyH=this.height;
@@ -188,15 +188,13 @@ function handleAnimations(){
     if (65 in keys || 68 in keys|| 87 in keys|| 83 in keys){
       
         if (ia==19){
-            ia =1
+            ia =0
         }      
             if (gameFrame % 60==0){
-                ia++
-                playerAnimationFeet=new Image();
-                playerAnimationFeet.src=`feet\\survivor-run_${ia}.png`;    
-                 
-                playerAnimationBody=new Image();
-                playerAnimationBody.src='body\\survivor-move_handgun_'+ia+'.png'
+            ia++
+            playerAnimationFeet.src= 'feet\\survivor-run_'+ia+'.png' 
+
+            playerAnimationBody.src='body\\survivor-move_handgun_'+ia+'.png'
         }
    
     }

@@ -192,9 +192,12 @@ function handleAnimations(){
         }   
           if (ib==19){
             ib =1
-        }  
-       ib++
-       playerAnimationFeet.src= 'feet\\survivor-run_'+ib+'.png' 
+        } 
+        
+       if (gameFrame % 40==0){ 
+           ib++
+           playerAnimationFeet.src= 'feet\\survivor-run_'+ib+'.png' 
+       }
         
         
         if (gameFrame % 70==0){

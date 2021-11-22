@@ -193,12 +193,12 @@ function handleAnimations(){
           if (ib==19){
             ib =1
         }  
-//         if (gameFrame %60==0){
+        if (gameFrame %25==0){
             ib++
             playerAnimationFeet.src= 'feet\\survivor-run_'+ib+'.png' 
-//         }
+        }
         
-        if (gameFrame % 30==0){
+        if (gameFrame % 60==0){
             ia++
             playerAnimationBody.src='body\\survivor-move_handgun_'+ia+'.png'
         }

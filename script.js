@@ -186,10 +186,10 @@ function handleAnimations(){
    
     if (65 in keys || 68 in keys|| 87 in keys|| 83 in keys){
       
-        if (ia==18){
-            ia =1
+        if (ia==19){
+            ia =0
         }      
-            if (gameFrame % 30==0){
+            if (gameFrame % 60==0){
             ia++
             playerAnimationFeet.src= 'feet\\survivor-run_'+ia+'.png' 
 

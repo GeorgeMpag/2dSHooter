@@ -15,6 +15,7 @@ let feetW, bodyW, bodyH,dW,dH;
 let feetH;
 let enemySpriteW, enemySpriteH;
 let paused=false;
+let ia=0
 
 
 const enemydead=new Image();
@@ -40,7 +41,7 @@ playerAnimationBody.onload = function() {
     
     bodyH=this.height;
     bodyW=this.width;
-    playerAnimationBody.src='body\\survivor-move_handgun_'+0+'.png'
+    playerAnimationBody.src='body\\survivor-move_handgun_'+ia+'.png'
     return true
 
   }

@@ -15,6 +15,7 @@ let feetW, bodyW, bodyH,dW,dH;
 let feetH;
 let enemySpriteW, enemySpriteH;
 let paused=false;
+let ia=0
 
 
 const enemydead=new Image();
@@ -25,7 +26,7 @@ enemydead.onload=function(){
     return true
 }
 const playerAnimationFeet=new Image();
-playerAnimationFeet.src='feet\\survivor-run_0.png';
+playerAnimationFeet.src=`feet\\survivor-run_${ia}.png`;
 
 playerAnimationFeet.onload = function() {
     
@@ -40,7 +41,7 @@ playerAnimationBody.onload = function() {
     
     bodyH=this.height;
     bodyW=this.width;
-    playerAnimationBody.src='body\\survivor-move_handgun_'+0+'.png'
+    playerAnimationBody.src='body\\survivor-move_handgun_'+ia+'.png'
     return true
 
   }
@@ -181,7 +182,7 @@ class Bullet{
     }
 
 }
-let ia=0
+// let ia=0
 function handleAnimations(){
    
     if (65 in keys || 68 in keys|| 87 in keys|| 83 in keys){

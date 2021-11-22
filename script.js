@@ -190,12 +190,13 @@ function handleAnimations(){
         if (ia==19){
             ia =1
         }      
+        if (gameFrame % 30==0){
+                ia++
+                playerAnimationFeet.src= 'feet\\survivor-run_'+ia+'.png' 
 
-        ia++
-        playerAnimationFeet.src= 'feet\\survivor-run_'+ia+'.png' 
-        
-        playerAnimationBody.src='body\\survivor-move_handgun_'+ia+'.png'
-   
+                playerAnimationBody.src='body\\survivor-move_handgun_'+ia+'.png'
+        }
+    
     }
      
             for (let i=0; i<enemyArray.length;i++){

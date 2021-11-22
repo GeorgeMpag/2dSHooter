@@ -191,10 +191,12 @@ function handleAnimations(){
             ia =1
         }      
             if (gameFrame % 60==0){
-            ia++
-            playerAnimationFeet.src= 'feet\\survivor-run_'+ia+'.png' 
-
-            playerAnimationBody.src='body\\survivor-move_handgun_'+ia+'.png'
+                ia++
+                playerAnimationFeet=new Image();
+                playerAnimationFeet.src=`feet\\survivor-run_${ia}.png`;    
+                 
+                playerAnimationBody=new Image();
+                playerAnimationBody.src='body\\survivor-move_handgun_'+ia+'.png'
         }
    
     }

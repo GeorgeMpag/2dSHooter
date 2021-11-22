@@ -182,7 +182,7 @@ class Bullet{
     }
 
 }
-//let ia=0
+
 function handleAnimations(){
    
     if (65 in keys || 68 in keys|| 87 in keys|| 83 in keys){

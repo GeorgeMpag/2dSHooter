@@ -189,7 +189,7 @@ function handleAnimations(){
         if (ia==19){
             ia =1
         }      
-            if (gameFrame % 60==0){
+            if (gameFrame % 30==0){
             ia++
             playerAnimationFeet.src= 'feet\\survivor-run_'+ia+'.png' 
 

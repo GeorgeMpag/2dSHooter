@@ -25,7 +25,7 @@ enemydead.onload=function(){
     dH=this.height;
     return true
 }
-const playerAnimationFeet=new Image();
+let playerAnimationFeet=new Image();
 playerAnimationFeet.src=`feet\\survivor-run_${ia}.png`;
 
 playerAnimationFeet.onload = function() {
@@ -36,7 +36,7 @@ playerAnimationFeet.onload = function() {
   }
 
 
-const playerAnimationBody=new Image();
+let playerAnimationBody=new Image();
 playerAnimationBody.onload = function() {
     
     bodyH=this.height;
@@ -188,7 +188,7 @@ function handleAnimations(){
     if (65 in keys || 68 in keys|| 87 in keys|| 83 in keys){
       
         if (ia==19){
-            ia =0
+            ia =1
         }      
             if (gameFrame % 60==0){
             ia++

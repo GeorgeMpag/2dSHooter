@@ -186,7 +186,7 @@ function handleAnimations(){
    
     if (65 in keys || 68 in keys|| 87 in keys|| 83 in keys){
       
-        if (ia==19){
+        if (ia==18){
             ia =1
         }      
             if (gameFrame % 30==0){

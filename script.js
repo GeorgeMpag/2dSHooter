@@ -194,7 +194,7 @@ function handleAnimations(){
         ia++
         playerAnimationFeet.src= 'feet\\survivor-run_'+ia+'.png' 
         
-        playerAnimationBody.src='body\\survivor-move_handgun_'+ia+'.png'
+//         playerAnimationBody.src='body\\survivor-move_handgun_'+ia+'.png'
    
     }
      

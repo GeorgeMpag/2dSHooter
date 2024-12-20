@@ -110,7 +110,7 @@ class Player {
         this.guny=canvas.height/2
         this.radius=30;
         this.angle=0;
-        this.speed=8;
+        this.speed=6;
         this.Moving=false;
     }
 
